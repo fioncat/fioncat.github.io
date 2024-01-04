@@ -656,7 +656,7 @@ sudo systemctl enable --now v2raya
 
 - 代理策略选择不代理CN的站点。
 - 代理模式建议选择`tproxy`，不然`NetworkManager`可能会报错。
-- 建议开启防DNS污染，以解决某些域名（例如`raw.githubusercontent`）无法被污染的问题。
+- 建议开启防DNS污染，以解决某些域名（例如`raw.githubusercontent`）无法被解析的问题。
 
 设置完成之后，就可以在左上角开启代理了：
 
@@ -1037,8 +1037,6 @@ sudo pacman -S mesa lib32-mesa xf86-video-nouveau
 
 > ⚠ 警告：特别提示，在ArchLinux玩游戏时N卡体验并不好，建议有游戏需求的还是在Windows下玩游戏。
 
-## 系统美化
-
 ## 备份和恢复
 
 ### Timeshift快照
@@ -1128,3 +1126,76 @@ grub-mkconfig -o /boot/grub/grub.cfg  # 重新生成配置文件
 **不建议动不动就重装，archiso重装grub可以解决大部分系统无法进入的问题。**
 
 ## 其他软件
+
+这里推荐一些其它日常中可能会用到的软件，仅供参考。
+
+[Flameshot](https://github.com/flameshot-org/flameshot) - 强大但简单易用的屏幕截图软件。截图后可以进行快捷的编辑。
+
+```bash
+sudo pacman -S flameshot
+```
+
+[WPS](https://www.wps.cn/) - 国产软件里面少有的原生支持Linux的，如果你有在Linux下编辑Office的需求，可以安装：
+
+```bash
+yay -S wps-office
+```
+
+[LibreOffice](https://zh-cn.libreoffice.org/) - 如果不想用WPS专有软件，自由开源的LibreOffice很适合你：
+
+```bash
+sudo pacman -S libreoffice-still libreoffice-still-zh-cn  # 正式版
+sudo pacman -S libreoffice-fresh libreoffice-fresh-zh-cn  # 尝鲜版
+```
+
+[Telegram](https://aur.archlinux.org/packages/telegram-desktop-bin) - Telegram（电报）是跨平台的即时通信软件。其客户端是自由软件（桌面端在 [GPLv3open](https://github.com/telegramdesktop/tdesktop/blob/dev/LICENSE) 协议下发布），但服务器是专有软件。
+
+```bash
+sudo pacman -S telegram-desktop
+```
+
+[Linux QQ](https://im.qq.com/linuxqq/index.shtml) - 腾讯基于electron做的跨平台版本QQ
+
+```bash
+yay -S linuxqq
+```
+
+> ArchLinux下的微信还没有electron版，只有基于wine的版本（有一个Deepin主导的星火商店版本`com.qq.weixin.spark`）。个人认为体验不好（各种字体、缩放问题），因此这里不做推荐。
+
+[KMail](https://archlinux.org/packages/extra/x86_64/kmail/) - 先进的电子邮件客户端，能与 GMail 等常用电子邮件服务提供商进行整合。KMail 支持各种电子邮件协议，包括 POP3、IMAP、Microsoft Exchange（EWS）等。
+
+```bash
+sudo pacman -S kmail
+```
+
+[kcalc](https://archlinux.org/packages/extra/x86_64/kcalc/) - 科学计算器
+
+```bash
+sudo pacman -S kcalc
+```
+
+[Okular](https://archlinux.org/packages/extra/x86_64/okular/) - KDE 开发的一款功能丰富、轻巧快速的跨平台文档阅读器。可以使用它来阅读 PDF 文档、漫画电子书、Epub 电子书，浏览图像，显示 Markdown 文档等。
+
+```bash
+sudo pacman -S okular
+```
+
+[YesPlayMusic](https://github.com/qier222/YesPlayMusic) - 高颜值的第三方网易云播放器。
+
+```bash
+yay -S yesplaymusic
+```
+
+[Listen 1](https://github.com/listen1/listen1_desktop) - Listen 1 作为“老牌”的听歌软件可以搜索和播放来自网易云音乐、虾米、QQ 音乐、酷狗音乐、酷我音乐、Bilibili、咪咕音乐网站的歌曲，让你的曲库更全面。
+
+```bash
+yay -S listen1-desktop-appimage
+```
+
+## 系统美化
+
+系统美化永远不是一件重要的事情。一个Linux系统应该优先是好用的，稳定的，其次才是美化。因此我将美化相关内容放在最后一节进行。
+
+> ⚠️警告：KDE过度美化可能会造成系统不稳定或出现奇怪的错误，在美化前强烈建议使用[Timeshift创建备份](#备份和恢复)，以在出现问题之后能够快速回滚到之前的状态。
+
+每个人的审美不同，对于美化的界定也不同，这里只给出基于我自己审美的美化步骤作为参考，每个人的ArchLinux都应该是不一样的！
