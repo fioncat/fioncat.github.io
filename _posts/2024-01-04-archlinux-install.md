@@ -10,7 +10,7 @@ tags:
     - Linux
 ---
 
-![desktop](https://raw.githubusercontent.com/fioncat/fioncat.github.io.images/main/2024-01-04-archlinux-install/desktop.png)
+![final](https://raw.githubusercontent.com/fioncat/fioncat.github.io.images/main/2024-01-04-archlinux-install/final.png)
 
 ArchLinux是很少见的连安装都让我受益匪浅的操作系统，她作为我的开发机主力系统，已经从很多层面上赢得了我的青睐。
 
@@ -1287,30 +1287,24 @@ yay -S plasma5-theme-mcsur-git
 
 ### Dock布局
 
+我们将通过KDE自带的编辑功能实现类似MacOS的Dock布局，注意我没有使用[latte-dock](https://github.com/KDE/latte-dock)来实现，因为笔者实际用下来发现latte有太多难以启齿的Bug，Dock布局实际上完全可以通过KDE本身的小组件配置来实现。
+
 右键菜单栏，进入编辑模式，将其移动到顶部，并略微修改布局：
 
 ![menu](https://raw.githubusercontent.com/fioncat/fioncat.github.io.images/main/2024-01-04-archlinux-install/menu.png)
 
-安装[Latte](https://github.com/KDE/latte-dock)，以实现Dock布局：
+在桌面，编辑组件，选择`Add Panel`，类型选择`Default Panel`。
 
-```bash
-sudo pacman -S latte-dock
-```
+移除除了`Task Manager`以外的小组件，并通过增加`Panel Spacer`让任务管理器居中，效果类似于：
 
-尝试在终端打开latte：
+![edit-dock](https://raw.githubusercontent.com/fioncat/fioncat.github.io.images/main/2024-01-04-archlinux-install/dock.png)
 
-```bash
-latte-dock
-```
+点击`More Options`，在`Visbility`选择`Windows Can Cover`，以让Dock栏实现自动隐藏：
 
-右键Dock，选择`Edit Dock`，进行一些简单的设置：
+![dock-options](https://raw.githubusercontent.com/fioncat/fioncat.github.io.images/main/2024-01-04-archlinux-install/dock-options.png)
 
-![latte-dock](https://raw.githubusercontent.com/fioncat/fioncat.github.io.images/main/2024-01-04-archlinux-install/latte-dock.png)
-
-默认Latte已经将自己添加到开机自动启动中了，可以自己检查一下。
-
-![latte-start](https://raw.githubusercontent.com/fioncat/fioncat.github.io.images/main/2024-01-04-archlinux-install/latte-start.png)
-
-这样，就完成了所有美化工作，最终成品：
+最终效果：
 
 ![desktop](https://raw.githubusercontent.com/fioncat/fioncat.github.io.images/main/2024-01-04-archlinux-install/desktop.png)
+
+恭喜，到这里，就完成了整个ArchLinux的安装和美化工作。
