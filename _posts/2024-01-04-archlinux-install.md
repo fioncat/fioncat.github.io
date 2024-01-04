@@ -1287,7 +1287,7 @@ yay -S plasma5-theme-mcsur-git
 
 ### Dock布局
 
-我们将通过KDE自带的编辑功能实现类似MacOS的Dock布局，注意我没有使用[latte-dock](https://github.com/KDE/latte-dock)来实现，因为笔者实际用下来发现latte有太多难以启齿的Bug，Dock布局实际上完全可以通过KDE本身的小组件配置来实现。
+我们将通过KDE自带的编辑功能实现类似MacOS的Dock布局，注意我没有使用[latte-dock](https://github.com/KDE/latte-dock)来实现，因为笔者实际用下来发现latte有太多难以启齿的Bug，并且需要吃掉一些性能。如果想使用Latte请自行参考文档。
 
 右键菜单栏，进入编辑模式，将其移动到顶部，并略微修改布局：
 
@@ -1299,9 +1299,7 @@ yay -S plasma5-theme-mcsur-git
 
 ![edit-dock](https://raw.githubusercontent.com/fioncat/fioncat.github.io.images/main/2024-01-04-archlinux-install/dock.png)
 
-点击`More Options`，在`Visbility`选择`Windows Can Cover`，以让Dock栏实现自动隐藏：
-
-![dock-options](https://raw.githubusercontent.com/fioncat/fioncat.github.io.images/main/2024-01-04-archlinux-install/dock-options.png)
+点击`More Options`，在`Visbility`选择`Windows Can Cover`，以让Dock栏实现自动隐藏。
 
 最终效果：
 
