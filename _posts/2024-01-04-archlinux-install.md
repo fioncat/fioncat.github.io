@@ -10,6 +10,8 @@ tags:
     - Linux
 ---
 
+![desktop](https://raw.githubusercontent.com/fioncat/fioncat.github.io.images/main/2024-01-04-archlinux-install/desktop.png)
+
 ArchLinux是很少见的连安装都让我受益匪浅的操作系统，她作为我的开发机主力系统，已经从很多层面上赢得了我的青睐。
 
 ArchLinux的安装经常劝退了不少初学者，事实上这个过程能让你对你自己的系统有更加全面的理解。但是即使是我这种ArchLinux<rm>老手<rm/>，在一段时间之后，也会忘记ArchLinux的一些安装步骤。所以记录了这个文档，以快速复盘安装过程。
@@ -1199,3 +1201,116 @@ yay -S listen1-desktop-appimage
 > ⚠️警告：KDE过度美化可能会造成系统不稳定或出现奇怪的错误，在美化前强烈建议使用[Timeshift创建备份](#备份和恢复)，以在出现问题之后能够快速回滚到之前的状态。
 
 每个人的审美不同，对于美化的界定也不同，这里只给出基于我自己审美的美化步骤作为参考，每个人的ArchLinux都应该是不一样的！
+
+### 系统图标
+
+我们可以更改默认的系统图标，推荐[Tela icon theme](https://github.com/vinceliuice/Tela-icon-theme)，安装：
+
+```bash
+sudo pacman -S tela-icon-theme-git
+```
+
+在设置页面直接更改即可：
+
+![icon](https://raw.githubusercontent.com/fioncat/fioncat.github.io.images/main/2024-01-04-archlinux-install/icon.png)
+
+### 全局主题
+
+推荐[Layan](https://github.com/vinceliuice/Layan-gtk-theme)主题，这是一个来自中国的设计师设计的主题，还是比较好看的。
+
+主题配合Kvantum Manager可以达到更好的效果：
+
+```bash
+sudo pacman -S kvantum
+```
+
+在[这里](https://www.pling.com/p/1325246/)下载Layan kvantum主题，并解压。
+
+打开Kvantum Manager，选择主题并安装，接下来在`Change/Delete Theme`中选择Layan，`Use this theme`：
+
+![Kvantum](https://raw.githubusercontent.com/fioncat/fioncat.github.io.images/main/2024-01-04-archlinux-install/layan_kvantum.png)
+
+然后在KDE系统设置中的`Application Style`中选择`Kvantum`：
+
+![kde-app-style](https://raw.githubusercontent.com/fioncat/fioncat.github.io.images/main/2024-01-04-archlinux-install/layan_app_style.png)
+
+安装Layan全局主题：
+
+```bash
+yay -S plasma5-themes-layan-git
+```
+
+设置全局主题为Layan：
+
+![layan-theme](https://raw.githubusercontent.com/fioncat/fioncat.github.io.images/main/2024-01-04-archlinux-install/layan_theme.png)
+
+重启电脑，让主题生效。
+
+### 引导页面
+
+开机时有个漂亮的GRUB也是很舒服的。
+
+在[这里](https://www.pling.com/p/1482847/)下载Distro的GRUB主题并解压。接下来cd进解压出来的文件夹，输入命令：
+
+```bash
+sudo cp . /usr/share/grub/themes/Distro -rf
+```
+
+以将主题放置在系统的GRUB默认文件夹内。
+
+接着编辑`/etc/default/grub`文件，找到`#GRUB_THEME=`一行，将前面的注释去掉，并指向主题的`theme.txt`文件。即
+
+```bash
+#GRUB_THEME=
+GRUB_THEME="/usr/share/grub/themes/Distro/theme.txt" #修改后
+```
+
+然后再在终端输入：
+
+```bash
+sudo grub-mkconfig -o /boot/grub/grub.cfg
+```
+
+这样，引导页面美化就完成了。
+
+### SDDM主题
+
+安装[McSur](https://github.com/yeyushengfan258/McSur-kde)主题：
+
+```bash
+yay -S plasma5-theme-mcsur-git
+```
+
+设置SDDM主题：
+
+![sddm](https://raw.githubusercontent.com/fioncat/fioncat.github.io.images/main/2024-01-04-archlinux-install/sddm.png)
+
+### Dock布局
+
+右键菜单栏，进入编辑模式，将其移动到顶部，并略微修改布局：
+
+![menu](https://raw.githubusercontent.com/fioncat/fioncat.github.io.images/main/2024-01-04-archlinux-install/menu.png)
+
+安装[Latte](https://github.com/KDE/latte-dock)，以实现Dock布局：
+
+```bash
+sudo pacman -S latte-dock
+```
+
+尝试在终端打开latte：
+
+```bash
+latte-dock
+```
+
+右键Dock，选择`Edit Dock`，进行一些简单的设置：
+
+![latte-dock](https://raw.githubusercontent.com/fioncat/fioncat.github.io.images/main/2024-01-04-archlinux-install/latte-dock.png)
+
+默认Latte已经将自己添加到开机自动启动中了，可以自己检查一下。
+
+![latte-start](https://raw.githubusercontent.com/fioncat/fioncat.github.io.images/main/2024-01-04-archlinux-install/latte-start.png)
+
+这样，就完成了所有美化工作，最终成品：
+
+![desktop](https://raw.githubusercontent.com/fioncat/fioncat.github.io.images/main/2024-01-04-archlinux-install/desktop.png)
