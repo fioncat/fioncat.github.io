@@ -520,7 +520,7 @@ sudo systemctl enable --now NetworkManager # 确保先启动 NetworkManager，�
 ```bash
 sudo pacman -S adobe-source-han-sans-cn-fonts adobe-source-han-serif-cn-fonts # 中文字体，推荐思源字体
 sudo pacman -S noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra # 安装谷歌字体以及emoji支持
-sudo pacman -S nerd-fonts-complete # nerd字体
+sudo pacman -S ttf-sourcecodepro-nerd # nerd字体
 ```
 
 安装一些基础软件：
