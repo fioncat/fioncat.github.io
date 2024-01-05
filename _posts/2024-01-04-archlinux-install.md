@@ -1,7 +1,7 @@
 ---
 layout:       post
 title:        "ArchLinux简明安装指南"
-subtitle:     "Install archlinux guide"
+subtitle:     "让ArchLinux成为你的日常系统吧！"
 author:       "Fioncat"
 header-style: text
 catalog:      true
@@ -16,7 +16,7 @@ tags:
 
 ArchLinux是很少见的连安装都让我受益匪浅的操作系统，她作为我的开发机主力系统，已经从很多层面上赢得了我的青睐。
 
-ArchLinux的安装经常劝退了不少初学者，事实上这个过程能让你对你自己的系统有更加全面的理解。但是即使是我这种ArchLinux<rm>老手<rm/>，在一段时间之后，也会忘记ArchLinux的一些安装步骤。所以记录了这个文档，以快速复盘安装过程。
+ArchLinux的安装经常劝退了不少初学者，事实上这个过程能让你对你自己的系统有更加全面的理解。但是即使是我这种<del>ArchLinux老手</del>，在一段时间之后，也会忘记ArchLinux的一些安装步骤。所以记录了这个文档，以快速复盘安装过程。
 
 本文的内容主要来自于一个非常优秀的简体中文ArchLinux安装教程：[archlinux 简明指南](https://arch.icekylin.online/)。在其基础上，基于我自己的偏好做了删改，主要是：
 
@@ -46,12 +46,7 @@ sudo dd bs=4M if=/path/to/archlinux.iso of=/dev/sdx status=progress oflag=sync
 如果你用的是MacOS系统，同样可以用`dd`命令来制作，但是在制作前需要对iso文件进行格式转换：
 
 ```bash
-hdiutil convert -format UDRW -o archlinux.dmg archlinux.iso
-```
-
-完成启动盘制作：
-
-```bash
+hdiutil convert -format UDRW -o archlinux.dmg archlinux.iso  # 将iso格式转换为dmg格式
 diskutil list # 列出设备，找到你的U盘（可以通过大小来区分）
 diskutil unmountDisk /dev/diskx # 卸载U盘
 sudo dd bs=4m if=archlinux.dmg of=/dev/disk4 status=progress
@@ -128,7 +123,9 @@ Server = https://mirrors.tuna.tsinghua.edu.cn/archlinux/$repo/os/$arch
 lsblk  # 确认磁盘设备号，假设为nvme0n1
 ```
 
-这里我们假设要安装系统的设备号为`nvme0n1`，如果你用的是基于NVMe的SSD磁盘，一般就是这个磁盘号。如果你用的是传统的SATA磁盘，磁盘号则一般为`sdx`。你可以根据`lsblk`命令输出的磁盘大小来确定要安装ArchLinux到哪个磁盘中。
+如果你用的是基于NVMe的SSD磁盘，一般设备号就是`nvme0n1`（如果你的设备有不止一块NVMe磁盘，编号可能不同，请注意区分），鉴于目前大部分机器都已经是NVMe了，后面将全程使用这个设备号。你可以根据`lsblk`命令输出的磁盘大小来确定要安装ArchLinux到哪个磁盘中。
+
+> 如果你用的是传统的SATA磁盘，磁盘号则一般为`sdx`，例如`/dev/sda`。
 
 如果你的盘号并不是`nvme0n1`，请在下面执行分区等命令时将盘号替换为你自己的。
 
@@ -157,7 +154,7 @@ Yes/No? Yes # 输入Yes确认抹除所有数据
 cfdisk /dev/nvme0n1
 ```
 
-这会进入一个`tui`，里面会列出所有现存的分区。我们可以通过方向上下选择要操作的分区，左右选择要进行的操作。
+这会进入一个[TUI](https://en.wikipedia.org/wiki/Text-based_user_interface)，里面会列出所有现存的分区。我们可以通过方向上下选择要操作的分区，左右选择要进行的操作。
 
 选中下面的`Free space`，创建新的分区。注意创建的分区默认类型为`Linux filesystem`，我们需要手动修改类型（选择下方的Type操作即可更改类型）：
 
@@ -270,6 +267,8 @@ free -h
 ```bash
 pacstrap /mnt base base-devel linux linux-firmware
 ```
+
+> 如果安装过程中出现签名相关的报错，即签名不受信任，一般是由于你的`archiso`太老了导致的。请使用最新的安装镜像。
 
 安装其他必要的功能性软件：
 
@@ -422,13 +421,6 @@ reboot
 systemctl enable --now dhcpcd
 ```
 
-如果用的wifi，需要启动`iwd`服务：
-
-```bash
-systemctl start iwd # 立即启动 iwd
-iwctl # 和之前的方式一样，连接无线网络
-```
-
 ### 创建非root用户
 
 我们不能在root用户上面进行日常操作，需要创建一个担当管理员角色的普通用户。
@@ -462,7 +454,12 @@ EDITOR=vim visudo
 sudo vim /etc/pacman.conf
 ```
 
-去掉`multilib`相关注释，以开启32位库支持。
+去掉`multilib`相关注释，以开启32位库支持：
+
+```toml
+[multilib]
+Include = /etc/pacman.d/mirrorlist
+```
 
 在配置最后加上下面内容，以添加`archlinuxcn`镜像源：
 
@@ -480,7 +477,9 @@ sudo pacman -Syyu
 
 ## 安装桌面环境
 
-没有图形界面的tty系统并不适用于日常使用。下面我们来对archlinux安装[KDE Plasma](https://kde.org/plasma-desktop/)桌面环境。ArchLinux可以选择其它桌面环境，有需求可以自行参考文档。
+没有图形界面的tty系统并不适用于日常使用。下面我们来对archlinux安装[KDE Plasma](https://kde.org/plasma-desktop/)桌面环境。
+
+> ArchLinux可以选择其它桌面环境，有需求可以自行参考文档。
 
 安装kde：
 
@@ -514,15 +513,19 @@ sudo systemctl start sddm
 sudo systemctl disable iwd # 确保 iwd 开机处于关闭状态，因为其无线连接会与 NetworkManager 冲突
 sudo systemctl stop iwd # 立即关闭 iwd
 sudo systemctl enable --now NetworkManager # 确保先启动 NetworkManager，并进行网络连接。若 iwd 已经与 NetworkManager 冲突，则执行完上一步重启一下电脑即可
-ping www.bilibili.com # 测试网络连通性
 ```
 
-安装一些基础软件：
+安装字体，否则一些字符和中文会显示乱码：
 
 ```bash
 sudo pacman -S adobe-source-han-sans-cn-fonts adobe-source-han-serif-cn-fonts # 中文字体，推荐思源字体
 sudo pacman -S noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra # 安装谷歌字体以及emoji支持
 sudo pacman -S nerd-fonts-complete # nerd字体
+```
+
+安装一些基础软件：
+
+```bash
 sudo pacman -S ntfs-3g # 使系统可以识别 NTFS 格式的硬盘
 sudo pacman -S ark # 压缩软件。在 dolphin 中可用右键解压压缩包
 sudo pacman -S packagekit-qt5 packagekit appstream-qt appstream # 确保 Discover（软件中心）可用，需重启
@@ -548,10 +551,19 @@ error: archlinuxcn-keyring: Signature from "Jiachen YANG (Arch Linux Packager Si
 sudo pacman-key --lsign-key "farseerfc@archlinux.org"
 ```
 
-下面，就可以用`yay`来安装AUR软件了，例如chrome浏览器：
+下面，就可以用`yay`来安装AUR软件了。
+
+安装谷歌浏览器：
 
 ```bash
 yay -S google-chrome
+```
+
+如果你不希望使用闭源浏览器，可以用开源的`firefox`或`chromium`（注意`chromium`已不支持Google账号同步）：
+
+```bash
+sudo pacman -S firefox
+sudo pacman -S chromium
 ```
 
 ### 检查家目录
@@ -588,7 +600,20 @@ XMODIFIERS=\@im=fcitx5
 SDL_IM_MODULE=fcitx
 ```
 
+在KDE的输入法配置页面，加入`Pinyin`：
+
+![pinyin](https://raw.githubusercontent.com/fioncat/fioncat.github.io.images/main/2024-01-04-archlinux-install/pinyin.png)
+
+
 重启或注销一下，应该就能输入中文了，使用`Ctrl + Space`快捷键可以切换输入法。
+
+因为Mac的使用体验，我更习惯于用`Caps Lock`键来切换输入法。要在KDE中实现，需要先将`Caps Lock`映射到别的键上面。进入`Input Devices` -> `Keyboard` -> `Advanced`，将`Caps Lock`行为改为`Num Lock`：
+
+![capslock-to-numlock](https://raw.githubusercontent.com/fioncat/fioncat.github.io.images/main/2024-01-04-archlinux-install/capslock-to-numlock.png)
+
+然后，在输入法的全局设置中，修改`Trigger Input Method`，会要求你输入快捷键，按下你的`Caps Lock`即可完成设置。
+
+![input-key](https://raw.githubusercontent.com/fioncat/fioncat.github.io.images/main/2024-01-04-archlinux-install/input-key.png)
 
 ### 蓝牙
 
@@ -596,26 +621,6 @@ SDL_IM_MODULE=fcitx
 
 ```bash
 sudo systemctl enable --now bluetooth
-```
-
-如果无法连接蓝牙设备，安装下面的软件：
-
-```bash
-sudo pacman -S bluez bluez-utils pulseaudio-bluetooth
-```
-
-### 音频
-
-如果系统没有声音，安装下面的软件：
-
-```bash
-sudo pacman -S pipewire-pulse pipewire-alsa pipewire-jack
-```
-
-或者尝试安装：
-
-```bash
-sudo pacman -S alsa-utils pulseaudio pavucontrol
 ```
 
 ### KDE桌面设置
@@ -692,7 +697,7 @@ chsh -s /usr/bin/zsh # 修改当前账户的默认 Shell
 
 ### Alacritty
 
-我们将不使用Konsole作为终端软件，因为它并不跨平台。除了Linux笔者还有一套Mac环境，因此我选择的[Alacritty](https://github.com/alacritty/alacritty)，这是一款用Rust编写的默认Terminal的替代品，可以利用GPU进行加速，性能强劲。但是功能比较简陋，没有标签页等功能，一般需要配合tmux来使用。
+我们将不使用Konsole作为终端软件，因为它并不跨平台（笔者还有一套Mac环境），我选择的是[Alacritty](https://github.com/alacritty/alacritty)，这是一款用Rust编写的终端模拟器，可以利用GPU进行加速，性能强劲。但是功能比较简陋，没有标签页等功能，一般需要配合tmux来使用。
 
 安装alacritty：
 
@@ -704,11 +709,27 @@ sudo pacman -S alacritty
 
 ```bash
 mkdir -p ~/.config/alacritty
-# 导入主题配色
 curl https://raw.githubusercontent.com/fioncat/dotfiles/master/alacritty/catppuccin.toml > ~/.config/alacritty/catppuccin.toml
-# 导入配置文件
 curl https://raw.githubusercontent.com/fioncat/dotfiles/master/alacritty/alacritty.toml > ~/.config/alacritty/alacritty.toml
 ```
+
+### fzf
+
+必备的，先进的模糊搜索工具，安装：
+
+```bash
+sudo pacman -S fzf
+```
+
+### starship
+
+推荐使用[starship](https://github.com/starship/starship)作为默认命令行提示符，这是用Rust写的，功能和性能都非常强大：
+
+```bash
+sudo pacman -S starship
+```
+
+注意，请使用nerd字体，另外确保在上面的步骤中已经安装了emoji支持，否则提示符会出现乱码。
 
 ### oh-my-zsh
 
@@ -725,50 +746,11 @@ git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-m
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 ```
 
-修改`.zshrc`，启用插件：
+导入配置文件：
 
 ```bash
-plugins=(
-	zsh-autosuggestions
-	zsh-syntax-highlighting
-
-	vi-mode
-	...
-)
+curl https://raw.githubusercontent.com/fioncat/dotfiles/master/oh-my-zsh/profile.zsh > ~/.zshrc
 ```
-
-### fzf
-
-必备的，先进的模糊搜索工具，安装：
-
-```bash
-sudo pacman -S fzf
-```
-
-我使用了[catppuccin](https://github.com/catppuccin/fzf)主题，将下面的语句加到`.zshrc`：
-
-```bash
-export FZF_DEFAULT_OPTS=" \
---color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
---color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
---color=marker:#f5e0dc,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8"
-```
-
-### 命令提示符
-
-推荐使用[starship](https://github.com/starship/starship)作为默认命令行提示符，这是用Rust写的，功能和性能都非常强大：
-
-```bash
-sudo pacman -S starship
-```
-
-在`.zshrc`中添加下面内容以设为默认命令提示符：
-
-```bash
-eval "$(starship init zsh)"
-```
-
-注意，请使用nerd字体，另外确保在上面的步骤中已经安装了emoji支持，否则提示符会出现乱码。
 
 ### tmux
 
@@ -841,7 +823,7 @@ Linux下很多命令都可以替换为更加现代的命令，例如ls，du，df
 sudo pacman -S bottom duf exa dust procs
 ```
 
-### 其他软件
+### 开发环境
 
 推荐一些工作中经常用到的开发者软件。
 
@@ -935,24 +917,18 @@ go install github.com/fatih/motion@latest
 go install github.com/koron/iferr@latest
 ```
 
-将Go的bin加到$PATH中：
-
-```bash
-export PATH=$PATH:$HOME/go/bin
-```
-
 **Rust开发环境**
 
-Rust比较特殊，不推荐用`pacman`来安装，建议用`rustup`：
+Rust比较特殊，不推荐用`pacman`来安装（可能会缺少一些东西），建议用`rustup`：
 
 ```bash
 curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh
 ```
 
-将Rust的bin加到$PATH中：
+以后要升级Rust的话，使用命令：
 
 ```bash
-export PATH=$PATH:$HOME/.cargo/bin
+rustup update
 ```
 
 Jetbrains为Rust开发了IDE，[RustRover](https://www.jetbrains.com/rust/)，目前处于功能测试阶段，是免费的，可以抢先体验下。笔者体验下来目前感觉不错：
@@ -1110,10 +1086,10 @@ sudo timeshift --restore --snapshot '20XX-XX-XX_XX-XX-XX' --skip-grub # 选择�
 在这里，通过`arch-chroot`进入坏掉的系统：
 
 ```bash
-mount -t btrfs -o subvol=/@,compress=zstd /dev/sdxn3 /mnt
-mount -t btrfs -o subvol=/@home,compress=zstd /dev/sdxn3 /mnt/home
-mount /dev/sdxn1 /mnt/boot/efi
-swapon /dev/sdxn2
+mount -t btrfs -o subvol=/@,compress=zstd /dev/nvme0n1p3 /mnt
+mount -t btrfs -o subvol=/@home,compress=zstd /dev/nvme0n1p3 /mnt/home
+mount /dev/nvme0n1p1 /mnt/boot/efi
+swapon /dev/nvme0n1p2
 arch-chroot /mnt
 ```
 
