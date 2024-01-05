@@ -10,6 +10,8 @@ tags:
     - Linux
 ---
 
+最终成品图。仅供参考，以实物为准;)
+
 ![final](https://raw.githubusercontent.com/fioncat/fioncat.github.io.images/main/2024-01-04-archlinux-install/final.png)
 
 ArchLinux是很少见的连安装都让我受益匪浅的操作系统，她作为我的开发机主力系统，已经从很多层面上赢得了我的青睐。
@@ -1063,6 +1065,8 @@ sudo pacman -S timeshift
 
 选择快照计划。由于 btrfs 类型快照占用空间相对较小，可以适当提高快照数量。
 
+![timeshift-schedule](https://raw.githubusercontent.com/fioncat/fioncat.github.io.images/main/2024-01-04-archlinux-install/timeshift-schedule.png)
+
 若希望 `/home` 用户主目录也快照，则勾选在备份中包含 `@home` 子卷：
 
 ![timeshift-user](https://raw.githubusercontent.com/fioncat/fioncat.github.io.images/main/2024-01-04-archlinux-install/timeshift-user.png)
@@ -1072,6 +1076,13 @@ sudo pacman -S timeshift
 然后，就可以非常简单地使用Timeshift图形界面完成快照的创建和回退了：
 
 ![timeshift](https://raw.githubusercontent.com/fioncat/fioncat.github.io.images/main/2024-01-04-archlinux-install/timeshift.png)
+
+
+要实现Timeshift自动备份，需要启动服务：
+
+```bash
+sudo systemctl enable --now cronie.service
+```
 
 ### 恢复
 
@@ -1285,24 +1296,16 @@ yay -S plasma5-theme-mcsur-git
 
 ![sddm](https://raw.githubusercontent.com/fioncat/fioncat.github.io.images/main/2024-01-04-archlinux-install/sddm.png)
 
-### Dock布局
+### 布局
 
-我们将通过KDE自带的编辑功能实现类似MacOS的Dock布局，注意我没有使用[latte-dock](https://github.com/KDE/latte-dock)来实现，因为笔者实际用下来发现latte有太多难以启齿的Bug，并且需要吃掉一些性能。如果想使用Latte请自行参考文档。
+KDE的所有布局都是通过Widget来完成的，你可以在桌面右键`Enter Edit Mode`来编辑小组件。
 
-右键菜单栏，进入编辑模式，将其移动到顶部，并略微修改布局：
+至于如何设计你的布局，请依赖自己的喜好来完成。你可以实现类似MacOS的Dock布局，也可以实现类似Windows11的布局。
+
+有一个类似MacOS Dock的小组件插件[latte-dock](https://github.com/KDE/latte-dock)，但是个人使用下来发现有不少BUG，因此不推荐使用，最好用KDE自带的`Plane`和`Widget`来实现Dock布局。
+
+我自己是采用的MacOS的布局，但是没有Dock栏（我习惯用`Meta+W`快捷键来切换应用，用左上角的`Application Launcher`来启动应用），仅作参考：
 
 ![menu](https://raw.githubusercontent.com/fioncat/fioncat.github.io.images/main/2024-01-04-archlinux-install/menu.png)
-
-在桌面，编辑组件，选择`Add Panel`，类型选择`Default Panel`。
-
-移除除了`Task Manager`以外的小组件，并通过增加`Panel Spacer`让任务管理器居中，效果类似于：
-
-![edit-dock](https://raw.githubusercontent.com/fioncat/fioncat.github.io.images/main/2024-01-04-archlinux-install/dock.png)
-
-点击`More Options`，在`Visbility`选择`Windows Can Cover`，以让Dock栏实现自动隐藏。
-
-最终效果：
-
-![desktop](https://raw.githubusercontent.com/fioncat/fioncat.github.io.images/main/2024-01-04-archlinux-install/desktop.png)
 
 恭喜，到这里，就完成了整个ArchLinux的安装和美化工作。
