@@ -1181,6 +1181,35 @@ yay -S yesplaymusic
 yay -S listen1-desktop-appimage
 ```
 
+## 苹果投屏
+
+[UxPlay](https://github.com/antimof/UxPlay)是一个苹果设备投屏工具，可以将iPhone或iPad屏幕投射到ArchLinux上面。
+
+```bash
+yay -S uxplay-git
+sudo pacman -S gst-plugins-good gst-plugins-bad gst-libav  # 一些额外的gst插件依赖
+```
+
+每次启动uxplay都需要启动`avahi-daemon`这个服务，我们可以重定义`uxplay`命令，让其在执行前启动服务。将下面的语句加到`.zshrc`中：
+
+```bash
+alias uxplay="sudo systemctl start avahi-daemon.service && uxplay"
+```
+
+确保苹果设备跟ArchLinux处于同一个局域网中（需要处于`5Ghz` Wifi下），在ArchLinux中启动`uxplay`：
+
+```bash
+uxplay
+```
+
+在苹果设备中，使用屏幕镜像即可找到你的ArchLinux设备：
+
+![ios](https://raw.githubusercontent.com/fioncat/fioncat.github.io.images/main/2024-01-04-archlinux-install/ios.png)
+
+现在，你可以在ArchLinux上看到苹果设备的投屏了：
+
+![ios-archlinux](https://raw.githubusercontent.com/fioncat/fioncat.github.io.images/main/2024-01-04-archlinux-install/ios_archlinux.png)
+
 ## 系统美化
 
 系统美化永远不是一件重要的事情。一个Linux系统应该优先是好用的，稳定的，其次才是美化。因此我将美化相关内容放在最后一节进行。
