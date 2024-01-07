@@ -1272,6 +1272,35 @@ yay -S plasma5-theme-mcsur-git
 
 ![sddm](https://raw.githubusercontent.com/fioncat/fioncat.github.io.images/main/2024-01-04-archlinux-install/sddm.png)
 
+### 输入法
+
+推荐[fcitx5-nord](https://github.com/tonyfettes/fcitx5-nord)主题，安装方法：
+
+```bash
+git clone https://github.com/tonyfettes/fcitx5-nord.git
+mkdir -p ~/.local/share/fcitx5/themes/
+cd fcitx5-nord
+cp -r Nord-Dark/ Nord-Light/ ~/.local/share/fcitx5/themes/
+cd ..
+rm -rf fcitx5-nord
+```
+
+设置输入法主题：
+
+```bash
+vim ~/.config/fcitx5/conf/classicui.conf
+```
+
+修改内容为：
+
+```conf
+Theme=Nord-Dark
+# or
+# Theme=Nord-Light
+```
+
+重启输入法，即可生效。
+
 ### 布局
 
 KDE的所有布局都是通过Widget来完成的，你可以在桌面右键`Enter Edit Mode`来编辑小组件。

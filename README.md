@@ -6,6 +6,7 @@ Install ruby and jekyll in ArchLinux:
 ```bash
 sudo pacman -S ruby
 gem install jekyll
+gem install jekyll-paginate
 ```
 
 Add this to profile:
