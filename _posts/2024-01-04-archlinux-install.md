@@ -413,7 +413,7 @@ exit # 退出chroot环境
 reboot
 ```
 
-重启之后，如果正常进入新的archlinux系统，会要求你登录，直接用root用户登录即可。
+重启之后，如果正常进入新的ArchLinux系统，会要求你登录，直接用root用户登录即可。
 
 进入新系统后第一件事是检查能否上网，如果不能，可能需要启动`dhcp`服务：
 
@@ -477,7 +477,7 @@ sudo pacman -Syyu
 
 ## 安装桌面环境
 
-没有图形界面的tty系统并不适用于日常使用。下面我们来对archlinux安装[KDE Plasma](https://kde.org/plasma-desktop/)桌面环境。
+没有图形界面的tty系统并不适用于日常使用。下面我们来对ArchLinux安装[KDE Plasma](https://kde.org/plasma-desktop/)桌面环境。
 
 > ArchLinux可以选择其它桌面环境，有需求可以自行参考文档。
 
@@ -1330,15 +1330,17 @@ Theme=Nord-Dark
 
 重启输入法，即可生效。
 
-### 布局
+### 定制
+
+KDE的定制性是非常强大并且简单的，从各种方面都暴打Gnome。所有定制基本都不需要修改配置文件，通过界面点击即可完成。并且社区有很多他人设计好的定制内容供你下载。
 
 KDE的所有布局都是通过Widget来完成的，你可以在桌面右键`Enter Edit Mode`来编辑小组件。
 
-至于如何设计你的布局，请依赖自己的喜好来完成。你可以实现类似MacOS的Dock布局，也可以实现类似Windows11的布局。
+至于如何设计你的布局，请依赖自己的喜好来完成。你可以实现类似MacOS的Dock布局，也可以实现类似Windows的布局（KDE的默认布局）。
 
 有一个类似MacOS Dock的小组件插件[latte-dock](https://github.com/KDE/latte-dock)，但是个人使用下来发现有不少BUG，因此不推荐使用，最好用KDE自带的`Plane`和`Widget`来实现Dock布局。
 
-我自己是采用的MacOS的布局，但是没有Dock栏（我习惯用`Meta+W`快捷键来切换应用，用左上角的`Application Launcher`来启动应用），仅作参考：
+我自己是采用的MacOS的布局，但是没有Dock（我习惯用`Meta+W`快捷键来切换应用，用左上角的`Application Launcher`来启动应用），仅作参考：
 
 ![menu](https://raw.githubusercontent.com/fioncat/fioncat.github.io.images/main/2024-01-04-archlinux-install/menu.png)
 
